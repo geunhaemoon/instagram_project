@@ -3,8 +3,8 @@ import { Route, Routes } from 'react-router-dom';
 import { Reset } from 'styled-reset';
 import { Global } from '@emotion/react';
 import { SLayout } from './styles/Global/common';
-import Sidebar from './components/Sidebar/Sidebar';
 import RootLayout from './components/Layouts/RootLayout/RootLayout';
+import Signup from './pages/Signup/Signup';
 
 function App() {
   return (
@@ -12,11 +12,11 @@ function App() {
       <Reset />
       <Global styles={SLayout} />
 
-
       <RootLayout>
-        <Sidebar />
+
         <Routes>
           <Route path='' element={<div>test</div>} />
+          <Route path='/accounts/emailsingnup' element={<Signup/>} />
           <Route path='/:username' element={<div>test2</div>} />
           <Route path='/explore' element={<div>test3</div>} />
         </Routes>
