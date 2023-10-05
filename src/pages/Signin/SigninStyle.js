@@ -10,6 +10,10 @@ export const SSigninBtn = css`
     border: none;
     font-weight: 700;
     color: #fff;
+    &:disabled{
+        background-color:#FFC45F;
+        cursor: auto;
+    }
 `;
 
 export const STextBtn = css`
@@ -25,6 +29,7 @@ export const STextBtn = css`
     font-weight: 700;
     color: #555 ;
     background-color: #fff;
+    
 `;
 
 

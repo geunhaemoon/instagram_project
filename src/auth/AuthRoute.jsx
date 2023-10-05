@@ -1,28 +1,47 @@
-import React, { useState } from 'react';
-import { Navigate, useLocation } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import { Navigate, useLocation, useNavigate } from 'react-router-dom';
+import Signin from '../pages/Signin/Signin';
+import { useQuery } from 'react-query';
+import { authenticate } from '../apis/api/acoount';
+import Loading from '../components/Loading/Loading';
 
-function AuthRoute({element}) {
+
+function AuthRoute({ element }) {
+    const navigate = useNavigate();
     const location = useLocation();
     const pathname = location.pathname;
     const permitAllPath = ["/accounts"];
-    const [authenticated, setAuthenticated] = useState(false);
-                                            // 로그인 판별 true = 로그인 상태, false=비로그인상태
 
+                                            // [키값], 비동기처리, {객체(옵션...)} 
+    const authenticateState = useQuery(["authenticate"], authenticate, {
+        retry: 0, // 요청실패시 몇번정도 다시 요청보낼지 , 회원가입은 한번 아니면 아닌거라 그냥 0
+        refetchOnWindowFocus: false
+    });
+
+    if (authenticateState.isLoading) {
+        // console.log("로딩중"); //점 찍을수 있는건 객체다
+        return <Loading />;
+    }
+
+    if (authenticateState.isError) {
+        for (let path of permitAllPath) {
+            if (pathname.startsWith(path)) {
+                return element;
+            }
+        }
+        return <Navigate to={"/accounts/login"} />;
+    } 
+    
     for (let path of permitAllPath) {
         if (pathname.startsWith(path)) {
-            //인증이 되었는지에 관한 검사
-            if (authenticated) {
-                return <Navigate to={"/"} />
-            }
-            //인증이 되지 않았다면?
-            return element;
-        }
+            return <Navigate to={"/"} />;
+        }   
     }
 
-    if (!authenticated) {
-        return <Navigate to={"/accounts/login"} />
-    }
     return element;
+
+    // console.log("로딩끝남");
+    // return <>로딩끝남</>
     
 }
 

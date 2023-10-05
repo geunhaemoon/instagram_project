@@ -13,7 +13,7 @@ function Signup() {
     const navigate = useNavigate();
 
     const emptyAccount = {
-        phoneAndEmail: "",
+        phoneOrEmail: "",
         name: "",
         username: "",
         password: ""
@@ -36,15 +36,15 @@ function Signup() {
     const handleSignupSubmit = async () => {
         try {
             const response = await signup(account);
-            navigate("accounts/login");
+            navigate("/accounts/login");
         } catch (error) {
             const responseErrorMSg = error.response.data;
             const keys = Object.keys(responseErrorMSg);
 
             if (keys.includes("username")) {
                 setErrorMsg(responseErrorMSg.username);
-            }else if (keys.includes("phoneAndEmail")) {
-                setErrorMsg(responseErrorMSg.phoneAndEmail);
+            }else if (keys.includes("phoneOrEmail")) {
+                setErrorMsg(responseErrorMSg.phoneOrEmail);
             }else if (keys.includes("name")) {
                 setErrorMsg(responseErrorMSg.name);
             }else if (keys.includes("password")) {
@@ -64,7 +64,7 @@ function Signup() {
                     <RiKakaoTalkFill css={S.KakaoImg}  />KaKaO로 로그인
                 </button>
                 <OrBar />
-                <Input placeholder={"휴대폰 번호 또는 이메일 주소"} name={"phoneAndEmail"} changeAccount={changeAccount}/>
+                <Input placeholder={"휴대폰 번호 또는 이메일 주소"} name={"phoneOrEmail"} changeAccount={changeAccount}/>
                 <Input placeholder={"성명"} name={"name"} changeAccount={changeAccount}/>
                 <Input placeholder={"사용자 이름"} name={"username"} changeAccount={changeAccount}/>
                 <Input placeholder={"비밀번호"} name={"password"} type={"password"} changeAccount={changeAccount} />
